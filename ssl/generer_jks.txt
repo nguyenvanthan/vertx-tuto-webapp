@@ -1,0 +1,18 @@
+# Methode a affiner car ne fonctionne pas avec le module ssl de vertx
+
+// creer sa cle
+openssl genrsa -out ca.key
+// creer un certificat autosigne
+openssl req -new -x509 -days 365 -key ca.key -out ca.crt
+
+// creer la cle prive du serveur
+openssl genrsa -out server.key
+openssl req -new -key server.key -out server.csr
+
+// creer le certificat signé du serveur
+openssl x509 -req -days 365 -in server.csr -CA ca.crt -CAkey ca.key -set_serial 01 -out server.crt
+
+// importer le certificat + la clé privée sous forme --> pkcs12
+openssl pkcs12 -export -in server.crt -inkey server.key -out keystore.p12 -name monAlias -CAfile ca.crt -caname root
+
+keytool -importkeystore -deststorepass motDePasse -destkeypass motDePasse -destkeystore server.jks -srckeystore keystore.p12 -srcstoretype PKCS12 -srcstorepass motDePasse -alias monAlias

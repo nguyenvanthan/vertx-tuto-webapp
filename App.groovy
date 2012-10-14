@@ -3,7 +3,9 @@ def webServerConf = [
   // Normal web server stuff
   port: 8080,
   host: 'localhost',
-  
+  ssl: true,
+  keyStorePath: 'server-keystore.jks',
+  //keyStorePassword: 'myjavaworld',
   bridge: true,  // also act like an event bus bridge
   
   inbound_permitted: [ // allow messages from the client --> server
@@ -53,6 +55,6 @@ container.with {
   // Deploy an auth manager to handle the authentication
   deployModule('vertx.auth-mgr-v1.0')
 
-  // Start the web server, with the config we defined above
-  deployModule('vertx.web-server-v1.0', webServerConf)
+  // Start 4 instances of the web server, with the config we defined above 
+  deployModule('vertx.web-server-v1.0', webServerConf, 4)
 }
