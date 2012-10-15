@@ -4,8 +4,8 @@ def webServerConf = [
   port: 8080,
   host: 'localhost',
   ssl: true,
-  keyStorePath: 'server-keystore.jks',
-  //keyStorePassword: 'myjavaworld',
+  key_store_path: 'server-keystore.jks',
+  key_store_password: 'myjavaworld',
   bridge: true,  // also act like an event bus bridge
   
   inbound_permitted: [ // allow messages from the client --> server
